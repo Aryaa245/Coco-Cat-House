@@ -61,3 +61,60 @@ let current = 0;
 let autoTimer;
 
 const cardWidth = () => cards[0].offsetWidth + 24; // gap = 24px
+
+
+// Buat dot navigation
+cards.forEach((_, i) => {
+  const dot = document.createElement('button');
+  dot.className = 'dot-btn' + (i === 0 ? ' active' : '');
+  dot.setAttribute('aria-label', `Slide ${i + 1}`);
+  dot.addEventListener('click', () => goTo(i));
+  dotsWrap.appendChild(dot);
+});
+
+function updateDots() {
+  dotsWrap.querySelectorAll('.dot-btn').forEach((dot, i) => {
+    dot.classList.toggle('active', i === current);
+  });
+}
+
+function goTo(idx) {
+  current = Math.max(0, Math.min(idx, total - 1));
+  track.style.transform = `translateX(-${current * cardWidth()}px)`;
+  updateDots();
+}
+
+document.getElementById('testiPrev').addEventListener('click', () => {
+  goTo(current > 0 ? current - 1 : total - 1);
+  resetAutoSlide();
+});
+
+document.getElementById('testiNext').addEventListener('click', () => {
+  goTo(current < total - 1 ? current + 1 : 0);
+  resetAutoSlide();
+});
+
+function startAutoSlide() {
+  autoTimer = setInterval(() => {
+    goTo(current < total - 1 ? current + 1 : 0);
+  }, 4500);
+}
+
+function resetAutoSlide() {
+  clearInterval(autoTimer);
+  startAutoSlide();
+}
+
+startAutoSlide();
+
+// ── FAQ Accordion ──────────────────────────────────────────────────────────
+document.querySelectorAll('[data-faq]').forEach(item => {
+  item.querySelector('.faq-q').addEventListener('click', () => {
+    const isOpen = item.classList.contains('open');
+    // Tutup semua
+    document.querySelectorAll('[data-faq]').forEach(i => i.classList.remove('open'));
+    // Buka yang diklik (jika belum terbuka)
+    if (!isOpen) item.classList.add('open');
+  });
+});
+
