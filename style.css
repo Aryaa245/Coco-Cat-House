@@ -446,6 +446,7 @@ section { padding: 80px 5vw; }
   background: rgba(255,255,255,.07); border-radius: 20px; padding: 18px 20px;
   border: 1px solid rgba(255,255,255,.12);
 }
+.info-card .info-val { color: #fff;}
 .info-card .info-label { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
 .info-card .info-label span.ic { font-size: 18px; }
 .info-card .info-label span.lb { font-weight: 700; font-size: 14px; color: var(--orange); }
